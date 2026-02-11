@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "migrate:up": "node cmd/database/migrate.js up",
     "migrate:down": "node cmd/database/migrate.js down",
     "db:seed": "node cmd/database/seed.js"
@@ -15,6 +16,8 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
     "jwt-simple": "^0.5.6",
     "pg": "^8.18.0",
     "pg-hstore": "^2.3.4",
