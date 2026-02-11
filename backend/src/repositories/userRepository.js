@@ -25,6 +25,26 @@ class UserRepository {
             }]
         });
     }
+    async findUsersByRole(roleName) {
+        return await User.findAll({
+            include: [{
+                model: Role,
+                where: { name: roleName },
+                attributes: [] // We don't need the role data in the final object, just the filter
+            }],
+            attributes: ['id', 'full_name', 'username']
+        });
+    }
+
+    async hasRole(userId, roleName) {
+        const user = await User.findByPk(userId, {
+            include: [{
+                model: Role,
+                where: { name: roleName }
+            }]
+        });
+        return !!user; // Returns true if user exists with that role
+    }
 }
 
 module.exports = new UserRepository();
