@@ -22,6 +22,10 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(frontendPath, 'html/register.html'));
 });
 
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'html/dashboard.html'));
+});
+
 
 // Routes
 app.use('/api/auth', authRoutes);
