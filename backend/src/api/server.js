@@ -18,6 +18,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(frontendPath, 'html/index.html'));
 });
 
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'html/register.html'));
+});
+
 
 // Routes
 app.use('/api/auth', authRoutes);
