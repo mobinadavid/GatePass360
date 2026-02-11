@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate:up": "node cmd/database/migrate.js up",
-    "migrate:down": "node cmd/database/migrate.js down"
+    "migrate:down": "node cmd/database/migrate.js down",
+    "db:seed": "node cmd/database/seed.js"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +16,9 @@
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "jwt-simple": "^0.5.6",
-    "pg": "^8.18.0"
+    "pg": "^8.18.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
   },
   "description": ""
 }
-
