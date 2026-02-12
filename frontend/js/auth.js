@@ -5,14 +5,13 @@ function showMessage(text, isSuccess = false) {
     msgBox.innerText = text;
     msgBox.style.display = 'block';
     
+    // استایل متناسب با تم تاریک قالب جدید
     if (isSuccess) {
-        msgBox.style.backgroundColor = '#d4edda';
-        msgBox.style.color = '#155724';
-        msgBox.style.border = '1px solid #c3e6cb';
+        msgBox.style.backgroundColor = '#ffeba7';
+        msgBox.style.color = '#102770';
     } else {
         msgBox.style.backgroundColor = '#f8d7da';
         msgBox.style.color = '#721c24';
-        msgBox.style.border = '1px solid #f5c6cb';
     }
 }
 
@@ -24,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const res = await apiRequest('/auth/login', 'POST', {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value
+                username: document.getElementById('username').value, // فیلد لاگین
+                password: document.getElementById('password').value  // فیلد لاگین
             });
 
             if (res.is_successful) {
@@ -45,16 +44,20 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const payload = {
                 full_name: document.getElementById('full_name').value,
-                username: document.getElementById('username').value,
+                username: document.getElementById('reg_username').value, // آیدی اصلاح شده
                 phone: document.getElementById('phone').value,
-                password: document.getElementById('password').value
+                password: document.getElementById('reg_password').value  // آیدی اصلاح شده
             };
 
             const res = await apiRequest('/auth/register', 'POST', payload);
             
             if (res.is_successful) {
-                showMessage("Registration successful! Moving to login...", true);
-                setTimeout(() => { window.location.href = '/'; }, 2000);
+                showMessage("Registration successful! Switching to login...", true);
+                // به جای ریلود صفحه، فقط چک‌باکس را تغییر می‌دهیم تا کارت بچرخد
+                setTimeout(() => { 
+                    document.getElementById('reg-log').checked = false; 
+                    regForm.reset();
+                }, 2000);
             } else { 
                 let errorText = res.message || "Registration failed";
                 if (res.errors) {

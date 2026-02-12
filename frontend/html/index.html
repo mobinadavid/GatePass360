@@ -2,20 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - GatePass360</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GatePass360 - Login & Register</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://unicons.iconscout.com/release/v2.1.9/css/unicons.css'>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Sign In</button>
-        </form>
-        <p class="footer-text">Don't have an account? <a href="/register">Register</a></p>
-        <div id="messageBox" style="display: none; padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 14px;"></div>
+
+    <div class="section">
+        <div class="container">
+            <div class="row full-height justify-content-center">
+                <div class="col-12 text-center align-self-center py-5">
+                    <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                        <h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
+                        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+                        <label for="reg-log"></label>
+                        
+                        <div class="card-3d-wrap mx-auto">
+                            <div class="card-3d-wrapper">
+                                
+                                <div class="card-front">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3">Log In</h4>
+                                            <form id="loginForm">
+                                                <div class="form-group">
+                                                    <input type="text" id="username" class="form-style" placeholder="Username" required autocomplete="off">
+                                                    <i class="input-icon uil uil-user"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" id="password" class="form-style" placeholder="Password" required autocomplete="off">
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                </div>
+                                                <button type="submit" class="btn mt-4">Sign In</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-back">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-3 pb-2">Sign Up</h4>
+                                            <form id="registerForm">
+                                                <div class="form-group">
+                                                    <input type="text" id="full_name" class="form-style" placeholder="Full Name" required autocomplete="off">
+                                                    <i class="input-icon uil uil-user"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="text" id="reg_username" class="form-style" placeholder="Username" required autocomplete="off">
+                                                    <i class="input-icon uil uil-at"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="text" id="phone" class="form-style" placeholder="Phone Number" required autocomplete="off">
+                                                    <i class="input-icon uil uil-phone"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" id="reg_password" class="form-style" placeholder="Password" required autocomplete="off">
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                </div>
+                                                <button type="submit" class="btn mt-4">Create Account</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        <div id="messageBox" style="display: none; width: 440px; margin: 20px auto; padding: 10px; border-radius: 5px; text-align: center; font-size: 14px; background: #ffeba7; color: #102770;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script src="/js/api.js"></script>
     <script src="/js/auth.js"></script>
 </body>
