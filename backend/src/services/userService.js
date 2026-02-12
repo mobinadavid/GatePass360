@@ -27,20 +27,21 @@ class UserService {
     }
 
     async login(username, password) {
-        // 1. Fetch user with Roles and Permissions [cite: 196, 222]
+        // 1. Fetch user with Roles and Permissions
         const user = await userRepository.findByUsernameWithDetails(username);
 
         if (!user) {
             throw new Error('Invalid credentials');
         }
 
-        // 2. Verify hashed password [cite: 148, 279]
+        // 2. Verify hashed password
         const isMatch = await hashService.verify(user.password, password);
         if (!isMatch) {
             throw new Error('Invalid credentials');
         }
 
-        // 3. Prepare token payload (Roles & Permissions) [cite: 115, 249]
+        // 3. Prepare token payload (Roles & Permissions)
+        const roles = user.Roles.map(r => r.name);
         const permissions = [...new Set(
             user.Roles.flatMap(role => role.Permissions.map(p => p.slug))
         )];
@@ -58,7 +59,7 @@ class UserService {
                 id: user.id,
                 username: user.username,
                 full_name: user.full_name,
-                permissions
+                roles: roles,
             }
         };
     }

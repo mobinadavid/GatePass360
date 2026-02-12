@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passController = require('../controllers/security/passController');
+const passController = require('../controllers/pass/passController');
 const { authenticate } = require('../middlewares/authMiddleware');
 const { can } = require('../middlewares/can');
 const passFilter = require('../middlewares/passFilter');

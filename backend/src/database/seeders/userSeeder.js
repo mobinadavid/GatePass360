@@ -19,6 +19,11 @@ const usersData = [
         password: 'HostPassword123',
         full_name: 'میزبان نمونه',
         role: 'host'
+    } ,{
+        username: 'test_host',
+        password: 'testHostPassword123',
+        full_name: 'میزبان تستی',
+        role: 'host'
     }
 ];
 

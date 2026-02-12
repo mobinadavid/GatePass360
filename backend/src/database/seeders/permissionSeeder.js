@@ -16,6 +16,11 @@ const permissions = [
     {slug: 'visits.view_approved',title_fa:'مشاهده درخواست‌های تأییدشده توسط میزبان'},
     {slug: 'passes.view_reports',title_fa:'نمایش لیست افراد حاضر در مجموعه'},
     {slug: 'reports.view',title_fa:'نمایش گزارش آماری'},
+    {slug: 'users.list',title_fa:'نمایش کاربران'},
+    {slug: 'users.update_role',title_fa:'دادن نقش به کاربران'},
+    {slug: 'user-reports.view',title_fa:'نمایش گزارش کاربران'},
+    {slug: 'roles.list',title_fa:'مشاهده نقش‌ ها'},
+
 ];
 
 const seedPermissions = async () => {

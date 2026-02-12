@@ -6,6 +6,7 @@ const authRoutes = require('./http/routes/authRoutes');
 const visitRoutes=require('./http/routes/visitRoutes');
 const userRoutes=require('./http/routes/userRoutes');
 const passRoutes = require('./http/routes/passRoutes');
+const adminRoutes = require('./http/routes/adminRoutes');
 const app = express();
 
 app.use(cors());
@@ -34,6 +35,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/visits', visitRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/passes', passRoutes);
+app.use('/api/admin', adminRoutes);
 
 const startServer = () => {
     const PORT = config.get('PORT') || 3000;

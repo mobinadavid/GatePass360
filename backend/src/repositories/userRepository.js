@@ -45,6 +45,25 @@ class UserRepository {
         });
         return !!user; // Returns true if user exists with that role
     }
+
+    async findAllUsers() {
+        return await User.findAll({
+            attributes: ['id', 'full_name', 'username', 'phone', 'created_at'],
+            include: [{
+                model: Role,
+                through: { attributes: [] } // جدول واسط را در خروجی نشان ندهد
+            }]
+        });
+    }
+    async updateRole(userId, roleId) {
+        const user = await User.findByPk(userId);
+        if (!user) throw new Error('User not found');
+
+        const role = await Role.findByPk(roleId);
+        if (!role) throw new Error('Role not found');
+
+        return await user.setRoles([role]);
+    }
 }
 
 module.exports = new UserRepository();
