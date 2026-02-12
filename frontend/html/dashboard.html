@@ -43,6 +43,26 @@
 
                     <div id="securitySection" class="card-3d-wrap mb-4" style="width: 100%; height: auto; padding: 25px; display: none;">
                         <h4 class="mb-4">Security Gate Control</h4>
+                        
+                        <h5 class="mt-4 mb-3" style="color: #ffeba7;">Approved Visits (Pending Pass)</h5>
+                        <div class="table-responsive mb-4">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Visitor</th>
+                                        <th>Host</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="securityPendingList">
+                                    </tbody>
+                            </table>
+                        </div>
+                    
+                        <hr style="border-top: 1px solid #444;">
+                    
+                        <h5 class="mt-4 mb-3" style="color: #ffeba7;">Active Passes (In/Out)</h5>
                         <div class="table-responsive">
                             <table class="table table-dark table-hover">
                                 <thead>
@@ -52,8 +72,7 @@
                                         <th>Traffic Control</th>
                                     </tr>
                                 </thead>
-                                <tbody id="activePassesList">
-                                    </tbody>
+                                <tbody id="activePassesList"></tbody>
                             </table>
                         </div>
                     </div>
