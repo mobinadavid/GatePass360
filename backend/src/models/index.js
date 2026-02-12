@@ -23,11 +23,11 @@ const db = {};
 db.Permission = require('./PermissionModel')(sequelize);
 db.Role = require('./RoleModel')(sequelize);
 db.User = require('./UserModel')(sequelize);
-db.Visit = require('./VisitModel')(sequelize); // Added Visit Model [cite: 242, 243]
-
+db.Visit = require('./VisitModel')(sequelize);
+db.Pass = require('./PassModel')(sequelize);
 // 2. Define Associations (The "Wiring" phase)
 
-// Role <-> Permission (Many-to-Many) [cite: 115, 249]
+// Role <-> Permission (Many-to-Many)
 db.Role.belongsToMany(db.Permission, {
     through: 'role_permissions',
     foreignKey: 'role_id',
@@ -59,6 +59,11 @@ db.Visit.belongsTo(db.User, { foreignKey: 'visitor_id', as: 'Guest' });
 // A User can be a Host for many visits
 db.User.hasMany(db.Visit, { foreignKey: 'host_id', as: 'HostVisits' });
 db.Visit.belongsTo(db.User, { foreignKey: 'host_id', as: 'Host' });
+
+// Visit <-> Pass (One-to-One)
+// A Visit has exactly one Pass issued by Security
+db.Visit.hasOne(db.Pass, { foreignKey: 'visit_id' });
+db.Pass.belongsTo(db.Visit, { foreignKey: 'visit_id' });
 
 // Export the sequelize instance and the loaded models
 db.sequelize = sequelize;

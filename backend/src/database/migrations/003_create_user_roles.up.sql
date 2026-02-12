@@ -1,4 +1,4 @@
-CREATE TABLE user_roles (
+CREATE TABLE if not exists user_roles (
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     role_id INT REFERENCES roles(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
