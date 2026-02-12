@@ -40,6 +40,29 @@ class VisitService {
 
         return await visitRepository.updateStatus(visitId, 'rejected', hostId, reason);
     }
+
+    async getFilteredVisits(filters) {
+        return await visitRepository.getAllWithFilters(filters);
+    }
+
+    async getApprovedByHosts(filters) {
+        return await visitRepository.getAllWithFilters({
+            ...filters,
+            status: 'approved_by_host'
+        });
+    }
+
+    async getVisitDetails(visitId) {
+        return await visitRepository.findById(visitId);
+    }
+
+    async getDashboardStats() {
+        return await visitRepository.getStats();
+    }
+
+    async getAllVisits(filters) {
+        return await visitRepository.getAllWithFilters(filters);
+    }
 }
 
 module.exports = new VisitService();

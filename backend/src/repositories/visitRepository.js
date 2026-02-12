@@ -1,4 +1,5 @@
-const { Visit, User } = require('../models/index');
+const { Visit, User ,Pass} = require('../models/index');
+const { Sequelize } = require('sequelize');
 
 class VisitRepository {
     async create(data) {
@@ -6,13 +7,16 @@ class VisitRepository {
     }
 
     async findById(id) {
-        const numericId = Number(id); // Use Number() for cleaner parsing
+        const numericId = Number(id);
+        if (isNaN(numericId)) throw new Error("Invalid ID format");
 
-        if (isNaN(numericId)) {
-            throw new Error("Invalid ID format: The visit ID must be a number.");
-        }
-
-        return await Visit.findByPk(numericId);
+        return await Visit.findByPk(numericId, {
+            include: [
+                { model: User, as: 'Guest', attributes: ['full_name', 'phone'] },
+                { model: User, as: 'Host', attributes: ['full_name'] },
+                { model: Pass }
+            ]
+        });
     }
 
     async getByGuestId(guestId) {
@@ -22,7 +26,11 @@ class VisitRepository {
                 model: User,
                 as: 'Host', // This alias MUST match index.js
                 attributes: ['full_name']
-            }],
+            },{
+                model: Pass,
+                attributes: ['pass_code', 'valid_from', 'valid_to']
+             }
+            ],
             order: [['created_at', 'DESC']]
         });
     }
@@ -48,6 +56,30 @@ class VisitRepository {
             },
             { where: { id: visitId } }
         );
+    }
+
+    async getAllWithFilters(filters) {
+        return await Visit.findAll({
+            where: filters, // This is where the magic happens for filters
+            include: [
+                { model: User, as: 'Guest', attributes: ['full_name', 'phone'] },
+                { model: User, as: 'Host', attributes: ['full_name'] }
+            ],
+            order: [['created_at', 'DESC']]
+        });
+    }
+
+    async getStats() {
+        return await Visit.findAll({
+            attributes: [
+                [Sequelize.fn('COUNT', Sequelize.col('Visit.id')), 'visit_count'],
+                [Sequelize.fn('DATE', Sequelize.col('Visit.created_at')), 'date']
+            ],
+            group: [Sequelize.fn('DATE', Sequelize.col('Visit.created_at'))],
+            order: [[Sequelize.fn('DATE', Sequelize.col('Visit.created_at')), 'DESC']],
+            limit: 7,
+            raw: true
+        });
     }
 }
 

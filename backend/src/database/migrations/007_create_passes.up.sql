@@ -1,4 +1,4 @@
-CREATE TABLE passes (
+CREATE TABLE if not exists passes (
     id SERIAL PRIMARY KEY,
     visit_id INT REFERENCES visits(id) ON DELETE CASCADE,
     pass_code VARCHAR(100) UNIQUE NOT NULL,

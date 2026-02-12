@@ -18,7 +18,7 @@ const can = (permission) => {
             next();
         } catch (error) {
             return ResponseBuilder.api(req, res)
-                .setStatusCode(500)
+                .setStatusCode(403)
                 .setMessage('Authorization check failed')
                 .send();
         }

@@ -1,4 +1,4 @@
-CREATE TABLE roles (
+CREATE TABLE if not exists roles (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30) UNIQUE NOT NULL, -- visitor, host, security, admin
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
