@@ -85,24 +85,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadHostPendingRequests() {
         const res = await apiRequest('/visits/host');
         const tbody = document.getElementById('hostRequestList');
+        
         if (res.is_successful && res.data.visits) {
-            if (res.data.visits.length === 0) {
+            const pendingVisits = res.data.visits.filter(v => v.status === 'pending_host');
+    
+            if (pendingVisits.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" class="text-center">No pending requests</td></tr>';
                 return;
             }
-            tbody.innerHTML = res.data.visits.map(v => `
+    
+            tbody.innerHTML = pendingVisits.map(v => `
                 <tr>
                     <td>${v.Visitor?.full_name || 'Unknown'}</td>
                     <td>${v.visit_date}</td>
                     <td>${v.purpose}</td>
                     <td>
                         <div class="btn-group">
-                            <button onclick="handleStatus(${v.id}, 'approved')" class="btn btn-sm btn-success mr-2">
-                                 Confirm
-                            </button>
-                            <button onclick="handleStatus(${v.id}, 'rejected')" class="btn btn-sm btn-danger">
-                                 Reject
-                            </button>
+                            <button type="button" onclick="handleStatus(${v.id}, 'approved')" class="btn btn-sm btn-success mr-2">Confirm</button>
+                            <button type="button" onclick="handleStatus(${v.id}, 'rejected')" class="btn btn-sm btn-danger">Reject</button>
                         </div>
                     </td>
                 </tr>
