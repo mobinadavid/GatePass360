@@ -2,7 +2,7 @@ const { Role, Permission } = require('../../models');
 
 const rolesData = [
     { name: 'guest', perms: ['visits.create', 'visits.view_own'] },
-    { name: 'host', perms: ['visits.view_host', 'visits.approve'] },
+    { name: 'host', perms: ['visits.view_host', 'visits.approve','visits.reject'] },
     { name: 'security', perms: ['passes.issue', 'passes.record_traffic'] },
     { name: 'admin', perms: null } // Assign all permissions
 ];

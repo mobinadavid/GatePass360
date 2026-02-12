@@ -1,7 +1,8 @@
 const userService = require('../../../../services/userService');
 const ResponseBuilder = require('../../response/ResponseBuilder');
+const userRepository = require('../../../../repositories/userRepository');
 
-class ProfileController {
+class UserController {
     async me(req, res) {
         try {
             const user = await userService.getProfile(req.user.id);
@@ -24,6 +25,22 @@ class ProfileController {
                 .send();
         }
     }
+    async listHosts(req, res) {
+        try {
+            const hosts = await userRepository.findUsersByRole('host');
+
+            return ResponseBuilder.api(req, res)
+                .setStatusCode(200)
+                .setMessage('Hosts list retrieved')
+                .setData({ hosts })
+                .send();
+        } catch (error) {
+            return ResponseBuilder.api(req, res)
+                .setStatusCode(500)
+                .setMessage(error.message)
+                .send();
+        }
+    }
 }
 
-module.exports = new ProfileController();
+module.exports = new UserController();

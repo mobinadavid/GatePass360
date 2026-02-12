@@ -49,7 +49,6 @@ class UserService {
             id: user.id,
             username: user.username,
             roles: user.Roles.map(r => r.name),
-            permissions: permissions
         });
 
         // 4. Return both user data and token to the controller
