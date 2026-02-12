@@ -2,19 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - GatePass360</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GatePass360 - Dashboard</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-    <div class="container">
-        <h2>User Dashboard</h2>
-        <div id="userInfo">
-            <p><strong>Name:</strong> <span id="display_name">Loading...</span></p>
-            <p><strong>Username:</strong> <span id="display_username">Loading...</span></p>
+    <div class="section">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card-3d-wrap" style="height: auto; padding: 20px;">
+                        <div class="section text-center">
+                            <h4 class="mb-4">Profile</h4>
+                            <p><strong>Name:</strong> <span id="display_name">...</span></p>
+                            <p><strong>User:</strong> @<span id="display_username">...</span></p>
+                            <button id="logoutBtn" class="btn mt-4" style="background: #e74c3c;">Logout</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-3d-wrap mb-4" style="width: 100%; height: auto; padding: 25px;">
+                        <h4 class="mb-4">New Visit Request</h4>
+                        <form id="visitForm">
+                            <div class="form-group">
+                                <select id="host_id" class="form-style" required>
+                                    <option value="" disabled selected>Select Host to visit...</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <textarea id="purpose" class="form-style" placeholder="Purpose of visit" required></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="date" id="visit_date" class="form-style" required>
+                            </div>
+                            <button type="submit" class="btn mt-3">Send Request</button>
+                        </form>
+                    </div>
+
+                    <div class="card-3d-wrap" style="width: 100%; height: auto; padding: 25px;">
+                        <h4 class="mb-4">My Requests History</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Host</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="visitList">
+                                    <tr><td colspan="3">Loading visits...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
-        <button id="logoutBtn" style="background-color: #dc3545;">Logout</button>
     </div>
+
     <script src="/js/api.js"></script>
     <script src="/js/dashboard.js"></script>
 </body>

@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    color:#102770;
+    background: radial-gradient(circle at 70% 30%, #0277b7 0%, #3da6d5 15%, #b3e5fc 35%, transparent 60%),
+        radial-gradient(circle at 10% 90%, #5cbaed 0%, #5ec8f6 15%, #b3e5fc 25%, transparent 60%),
+        linear-gradient(135deg, #e1f5fe, #98daf8);
+    overflow-x: hidden;
+    height: auto;
+}
+.card-3d-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border:#102770 2px;
+    background-position: bottom center;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px 0 rgba(0,0,0,.5);
+    transition: transform 0.3s ease;
+}
+
+h4 {
+    font-weight: 600;
+    color:#102770;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.form-style {
+    padding: 13px 20px;
+    height: 48px;
+    width: 100%;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    outline: none;
+    color:#102770;
+    background-color: white;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
+    transition: all 200ms linear;
+}
+.section{
+    margin-bottom: 150px;
+}
+
+textarea.form-style {
+    height: 100px;
+    padding-top: 15px;
+}
+
+.form-style:focus {
+    color:#102770;
+    background-color: white;
+    box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+}
+.table {
+    color: #c4c3ca;
+    background-color:#263979;
+    border-radius: 8px;
+    overflow: hidden;
+    border: none;
+}
+
+.table thead th {
+    border-bottom: 2px solid white;
+    color: white;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.btn {  
+    border-radius: 4px;
+    height: 44px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 200ms linear;
+    padding: 0 30px;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: none;
+    background-color:#102770;
+    color: white;
+    box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+}
+
+.btn:hover {  
+    background-color: #102770;
+    color: white;
+    box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+}
+#display_name, #display_username {
+    color:#102770 ;
+    font-weight: 600;
+}
+.table-responsive::-webkit-scrollbar {
+    height: 5px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background:#102770;
+    border-radius: 10px;
+}
