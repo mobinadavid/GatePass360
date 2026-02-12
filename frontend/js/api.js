@@ -1,4 +1,3 @@
-// استفاده از آدرس نسبی اگر فرانت و بک روی یک پورت هستند
 const API_URL = "/api"; 
 
 async function apiRequest(endpoint, method = 'GET', body = null) {
@@ -8,8 +7,6 @@ async function apiRequest(endpoint, method = 'GET', body = null) {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     };
-
-    // اضافه کردن توکن به هدر در صورت وجود
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
     }
@@ -22,8 +19,6 @@ async function apiRequest(endpoint, method = 'GET', body = null) {
 
     try {
         const response = await fetch(`${API_URL}${endpoint}`, config);
-        
-        // اگر توکن منقضی شده بود (کد 401)، کاربر را به لاگین بفرست
         if (response.status === 401) {
             localStorage.removeItem('token');
             window.location.href = '/';
@@ -37,7 +32,7 @@ async function apiRequest(endpoint, method = 'GET', body = null) {
         console.error("🚨 API Connection Error:", error);
         return { 
             is_successful: false, 
-            message: "ارتباط با سرور برقرار نشد. لطفا اینترنت خود را چک کنید." 
+            message: "Connection is disconnected" 
         };
     }
 }
