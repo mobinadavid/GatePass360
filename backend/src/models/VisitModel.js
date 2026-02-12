@@ -30,6 +30,11 @@ module.exports = (sequelize) => {
         rejection_reason: {
             type: DataTypes.TEXT,
             allowNull: true
+        },
+        last_changed_by: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: { model: 'users', key: 'id' }
         }
     }, {
         tableName: 'visits',

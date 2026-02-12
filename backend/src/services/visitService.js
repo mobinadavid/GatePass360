@@ -31,14 +31,14 @@ class VisitService {
         if (!visit || visit.host_id !== parseInt(hostId)) {
             throw new Error('Visit not found or unauthorized');
         }
-        return await visitRepository.updateStatus(visitId, 'approved_by_host');
+        return await visitRepository.updateStatus(visitId, 'approved_by_host', hostId);
     }
 
     async rejectVisit(visitId, hostId, reason) {
         const visit = await visitRepository.findById(visitId);
         if (!visit || visit.host_id !== hostId) throw new Error('Visit not found or unauthorized');
 
-        return await visitRepository.updateStatus(visitId, 'rejected', reason);
+        return await visitRepository.updateStatus(visitId, 'rejected', hostId, reason);
     }
 }
 

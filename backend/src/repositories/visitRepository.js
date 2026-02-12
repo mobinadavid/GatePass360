@@ -39,9 +39,13 @@ class VisitRepository {
         });
     }
 
-    async updateStatus(visitId, status, reason = null) {
+    async updateStatus(visitId, status,userId, reason = null) {
         return await Visit.update(
-            { status, rejection_reason: reason },
+            {
+                status: status,
+                rejection_reason: reason,
+                last_changed_by: userId
+            },
             { where: { id: visitId } }
         );
     }
