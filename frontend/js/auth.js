@@ -5,7 +5,6 @@ function showMessage(text, isSuccess = false) {
     msgBox.innerText = text;
     msgBox.style.display = 'block';
     
-    // استایل متناسب با تم تاریک قالب جدید
     if (isSuccess) {
         msgBox.style.backgroundColor = '#ffeba7';
         msgBox.style.color = '#102770';
@@ -23,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const res = await apiRequest('/auth/login', 'POST', {
-                username: document.getElementById('username').value, // فیلد لاگین
-                password: document.getElementById('password').value  // فیلد لاگین
+                username: document.getElementById('username').value, 
+                password: document.getElementById('password').value  
             });
 
             if (res.is_successful) {
@@ -44,16 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const payload = {
                 full_name: document.getElementById('full_name').value,
-                username: document.getElementById('reg_username').value, // آیدی اصلاح شده
+                username: document.getElementById('reg_username').value,
                 phone: document.getElementById('phone').value,
-                password: document.getElementById('reg_password').value  // آیدی اصلاح شده
+                password: document.getElementById('reg_password').value
             };
 
             const res = await apiRequest('/auth/register', 'POST', payload);
             
             if (res.is_successful) {
                 showMessage("Registration successful! Switching to login...", true);
-                // به جای ریلود صفحه، فقط چک‌باکس را تغییر می‌دهیم تا کارت بچرخد
                 setTimeout(() => { 
                     document.getElementById('reg-log').checked = false; 
                     regForm.reset();

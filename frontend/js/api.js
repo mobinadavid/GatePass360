@@ -1,24 +1,20 @@
-const API_URL = "/api"; 
+const API_URL = 'http://localhost:3000/api'; // آدرس سرور خودت را چک کن
 
-async function apiRequest(endpoint, method = 'GET', body = null) {
+async function apiRequest(endpoint, method = 'GET', data = null) {
     const token = localStorage.getItem('token');
-    
-    const headers = { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+    const config = {
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        }
     };
-    if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-    }
 
-    const config = { 
-        method, 
-        headers, 
-        body: body ? JSON.stringify(body) : null 
-    };
+    if (data) config.body = JSON.stringify(data);
 
     try {
         const response = await fetch(`${API_URL}${endpoint}`, config);
+        
         if (response.status === 401) {
             localStorage.removeItem('token');
             window.location.href = '/';
@@ -26,13 +22,15 @@ async function apiRequest(endpoint, method = 'GET', body = null) {
         }
 
         const result = await response.json();
-        return result; 
-
-    } catch (error) {
-        console.error("🚨 API Connection Error:", error);
+        
+        // اضافه کردن کد وضعیت به خروجی برای استفاده در داشبورد
         return { 
-            is_successful: false, 
-            message: "Connection is disconnected" 
+            ...result, 
+            status_code: response.status,
+            is_successful: response.ok 
         };
+    } catch (error) {
+        console.error("API Error:", error);
+        return { is_successful: false, message: "Connection Error", status_code: 500 };
     }
 }
