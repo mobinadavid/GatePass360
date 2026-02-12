@@ -114,3 +114,31 @@ textarea.form-style {
     background:#102770;
     border-radius: 10px;
 }
+.btn-approve {
+    background-color: #2ecc71 !important;
+    padding: 5px 15px !important;
+    height: 35px !important;
+    font-size: 11px !important;
+    margin-right: 5px;
+}
+
+.btn-reject {
+    background-color: #e74c3c !important;
+    padding: 5px 15px !important;
+    height: 35px !important;
+    font-size: 11px !important;
+}
+
+.btn-entry {
+    background-color: #3498db !important;
+    padding: 5px 15px !important;
+    height: 35px !important;
+    font-size: 11px !important;
+}
+
+.btn-exit {
+    background-color: #f39c12 !important;
+    padding: 5px 15px !important;
+    height: 35px !important;
+    font-size: 11px !important;
+}

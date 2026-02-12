@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="card-3d-wrap" style="height: auto; padding: 20px;">
-                        <div class="section text-center">
+                        <div class="section text-center" style="margin-bottom: 0;">
                             <h4 class="mb-4">Profile</h4>
                             <p><strong>Name:</strong> <span id="display_name">...</span></p>
                             <p><strong>User:</strong> @<span id="display_username">...</span></p>
@@ -23,7 +23,42 @@
                 </div>
 
                 <div class="col-md-8">
-                    <div class="card-3d-wrap mb-4" style="width: 100%; height: auto; padding: 25px;">
+                    
+                    <div id="hostSection" class="card-3d-wrap mb-4" style="width: 100%; height: auto; padding: 25px; display: none;">
+                        <h4 class="mb-4">Requests to Approve</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Visitor</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hostRequestList">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="securitySection" class="card-3d-wrap mb-4" style="width: 100%; height: auto; padding: 25px; display: none;">
+                        <h4 class="mb-4">Security Gate Control</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Visitor</th>
+                                        <th>Status</th>
+                                        <th>Traffic Control</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activePassesList">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="visitorSection" class="card-3d-wrap mb-4" style="width: 100%; height: auto; padding: 25px;">
                         <h4 class="mb-4">New Visit Request</h4>
                         <form id="visitForm">
                             <div class="form-group">
@@ -47,7 +82,7 @@
                             <table class="table table-dark table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Host</th>
+                                        <th>Host/Guest</th>
                                         <th>Date</th>
                                         <th>Status</th>
                                     </tr>
@@ -58,6 +93,7 @@
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
