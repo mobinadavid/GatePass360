@@ -86,14 +86,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const res = await apiRequest('/visits/host');
         const tbody = document.getElementById('hostRequestList');
         if (res.is_successful && res.data.visits) {
+            if (res.data.visits.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No pending requests</td></tr>';
+                return;
+            }
             tbody.innerHTML = res.data.visits.map(v => `
                 <tr>
-                    <td>${v.Visitor?.full_name}</td>
+                    <td>${v.Visitor?.full_name || 'Unknown'}</td>
                     <td>${v.visit_date}</td>
                     <td>${v.purpose}</td>
                     <td>
-                        <button onclick="handleStatus(${v.id}, 'approved')" class="btn btn-sm btn-success">Approve</button>
-                        <button onclick="handleStatus(${v.id}, 'rejected')" class="btn btn-sm btn-danger">Reject</button>
+                        <div class="btn-group">
+                            <button onclick="handleStatus(${v.id}, 'approved')" class="btn btn-sm btn-success mr-2">
+                                 Confirm
+                            </button>
+                            <button onclick="handleStatus(${v.id}, 'rejected')" class="btn btn-sm btn-danger">
+                                 Reject
+                            </button>
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -101,10 +111,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     window.handleStatus = async (id, status) => {
-        const res = await apiRequest(`/visits/${id}/status`, 'PATCH', { status });
-        if (res.is_successful) {
-            alert(`Visit ${status}!`);
-            loadHostPendingRequests();
+        let payload = {};
+    
+        if (status === 'rejected') {
+            const reason = prompt("Please enter the reason for rejection:");
+            if (reason === null) return;
+            if (reason.trim() === "") {
+                alert("Reason is required for rejection!");
+                return;
+            }
+            payload = { reason: reason }; 
+        } else {
+            if (!confirm("Are you sure you want to approve this visit?")) return;
+            payload = {}; 
+        }
+    
+        const endpoint = status === 'approved' ? 'approve' : 'reject';
+        
+        try {
+            const res = await apiRequest(`/visits/${id}/${endpoint}`, 'PATCH', payload); 
+            
+            if (res.is_successful) {
+                alert(`Visit ${status} successfully!`);
+                loadHostPendingRequests();
+                loadMyVisits();
+            } else {
+                alert("Error: " + (res.message || "Operation failed"));
+            }
+        } catch (err) {
+            console.error("Status update failed", err);
+            alert("Connection error!");
         }
     };
 
@@ -126,10 +162,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     window.logTraffic = async (passId, type) => {
-        const res = await apiRequest('/passes/log-traffic', 'POST', { pass_id: passId, type });
+        const endpoint = type === 'entry' ? 'check-in' : 'check-out';
+        
+        const res = await apiRequest(`/passes/${endpoint}`, 'POST', { pass_id: passId });
         if (res.is_successful) {
             alert(`Traffic recorded: ${type}`);
             loadActivePasses();
+        } else {
+            alert("Error: " + res.message);
         }
     };
 
@@ -156,11 +196,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tbody = document.getElementById(targetId);
         if (res.is_successful && res.data.visits) {
             tbody.innerHTML = res.data.visits.map(v => {
-                const color = v.status === 'approved' ? '#2ecc71' : v.status === 'pending_host' ? '#f1c40f' : '#e74c3c';
+                let statusColor = '#f1c40f';
+                if (v.status === 'approved') statusColor = '#2ecc71';
+                if (v.status === 'rejected') statusColor = '#e74c3c';
+                const passInfo = (v.status === 'approved' && v.Pass) 
+                    ? `<br><small class="text-white">Code: ${v.Pass.pass_code}</small>` 
+                    : '';
+                const rejectReason = (v.status === 'rejected' && v.rejection_reason) 
+                    ? `<br><small style="color: #ff9f89; font-style: italic;">Reason: ${v.rejection_reason}</small>` 
+                    : '';
+                
                 return `<tr>
-                    <td>${v.Host?.full_name || 'N/A'}</td>
+                    <td>${v.Host?.full_name || v.Visitor?.full_name || 'N/A'}</td>
                     <td>${v.visit_date}</td>
-                    <td style="color: ${color}">${v.status}</td>
+                    <td style="color: ${statusColor}; font-weight: bold;">
+                        ${v.status.toUpperCase()}
+                        ${passInfo}
+                        ${rejectReason}
+                    </td>
                 </tr>`;
             }).join('');
         }

@@ -8,7 +8,7 @@ const permissions = [
     { slug: 'visits.view_stats', title_fa: 'مشاهده گزارش آماری' },
     { slug: 'visits.view_details', title_fa: 'مشاهده جزییات درخواست ها' },
     { slug: 'visits.approve', title_fa: 'تأیید درخواست مهمان' },
-    { slug: 'visits.approve', title_fa: 'رد درخواست مهمان' },
+    { slug: 'visits.reject', title_fa: 'رد درخواست مهمان' },
     { slug: 'passes.issue', title_fa: 'صدور مجوز ورود' },
     { slug: 'passes.record_traffic', title_fa: 'ثبت ورود و خروج مهمان' },
     { slug: 'passes.passes.view_all', title_fa: 'مشاهده ورود و خروجی ها' },
