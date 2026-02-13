@@ -20,37 +20,35 @@ function setupRoleBasedUI(roles) {
         visitor: document.getElementById('visitorSection'),
         host: document.getElementById('hostSection'),
         security: document.getElementById('securitySection'),
-        history: document.getElementById('historySection'),
+        history: document.getElementById('historySection'), 
         admin: document.getElementById('adminSection')
     };
-
     Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
 
     const userRoles = roles.map(r => r.toLowerCase());
-
-    if (userRoles.includes('admin') || userRoles.includes('security')) {
+    if (userRoles.includes('security')) {
         if (sections.security) sections.security.style.display = 'block';
         loadActivePasses();
         loadSecurityPendingVisits();
         loadPresentReport();
     }
-
-    if (userRoles.includes('admin') || userRoles.includes('host')) {
-        if (sections.host) sections.host.style.display = 'block';
-        if (sections.history) sections.history.style.display = 'block';
-        loadHostPendingRequests();
-        loadMyVisits();
-        loadHosts();
-    }
-
     if (userRoles.includes('guest') || userRoles.includes('visitor')) {
         if (sections.visitor) sections.visitor.style.display = 'block';
-        if (sections.history) sections.history.style.display = 'block';
+        if (sections.history) sections.history.style.display = 'block'; 
         loadHosts();
         loadMyVisits();
+    }
+    if (userRoles.includes('host')) {
+        if (sections.host) sections.host.style.display = 'block';
+        loadHostPendingRequests();
     }
     if (userRoles.includes('admin')) {
         if (sections.admin) sections.admin.style.display = 'block';
+        const adminMonitor = document.getElementById('adminVisitsMonitor');
+        if (adminMonitor) {
+        adminMonitor.style.display = 'block';
+        loadAllVisitsForAdmin(); 
+         }
         loadAdminUsers();
         loadAdminReports();
     }

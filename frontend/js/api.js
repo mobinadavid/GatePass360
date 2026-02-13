@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api'; // آدرس سرور خودت را چک کن
+const API_URL = 'http://localhost:3000/api';
 
 async function apiRequest(endpoint, method = 'GET', data = null) {
     const token = localStorage.getItem('token');
@@ -22,8 +22,6 @@ async function apiRequest(endpoint, method = 'GET', data = null) {
         }
 
         const result = await response.json();
-        
-        // اضافه کردن کد وضعیت به خروجی برای استفاده در داشبورد
         return { 
             ...result, 
             status_code: response.status,

@@ -56,40 +56,54 @@ async function loadActivePasses() {
     const res = await apiRequest('/passes');
     const tbody = document.getElementById('activePassesList');
     if (!tbody) return;
-
-    const passes = res.data?.passes || res.data || [];
+    const passes = res.data?.passes || []; 
+    
     if (passes.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3" class="text-center">No active passes.</td></tr>';
         return;
     }
 
-    tbody.innerHTML = passes.map(p => `
-        <tr>
-            <td>${p.Visit?.Guest?.full_name || p.Visit?.Visitor?.full_name || 'Visitor'}</td>
-            <td><span class="badge badge-info">${p.status}</span></td>
-            <td>
-                <div class="btn-group">
-                    <button onclick="handleCheckInFromList('${p.pass_code}')" class="btn btn-sm btn-success">Check-In</button>
-                    <button onclick="handleCheckOutFromList('${p.pass_code}')" class="btn btn-sm btn-danger ml-1">Check-Out</button>
-                </div>
-            </td>
-        </tr>
-    `).join('');
+    tbody.innerHTML = passes.map(p => {
+        let displayStatus = 'Issued';
+        let badgeClass = 'badge-info';
+
+        if (p.check_out_time) {
+            displayStatus = 'Completed';
+            badgeClass = 'badge-secondary';
+        } else if (p.check_in_time) {
+            displayStatus = 'On-Site';
+            badgeClass = 'badge-success';
+        }
+
+        return `
+            <tr>
+                <td>${p.Visit?.Guest?.full_name || p.Visit?.Visitor?.full_name || 'Visitor'}</td>
+                <td><span class="badge ${badgeClass}">${displayStatus}</span></td>
+                <td>
+                    <div class="btn-group">
+                        ${!p.check_in_time ? `<button onclick="handleCheckInFromList('${p.pass_code}')" class="btn btn-sm btn-success">Check-In</button>` : ''}
+                        
+                        ${p.check_in_time && !p.check_out_time ? `<button onclick="handleCheckOutFromList('${p.pass_code}')" class="btn btn-sm btn-danger ml-1">Check-Out</button>` : ''}
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
 }
 
 async function loadPresentReport() {
     const res = await apiRequest('/passes/reports/present');
     const tbody = document.getElementById('presentPeopleList');
     if (!tbody) return;
+    const presentList = res.data?.present_visitors || []; 
 
-    const presentList = res.data || [];
     tbody.innerHTML = presentList.length === 0 
         ? '<tr><td colspan="4" class="text-center">No visitors on-site</td></tr>'
         : presentList.map(p => `
             <tr>
                 <td>${p.Visit?.Visitor?.full_name || p.Visit?.Guest?.full_name || 'N/A'}</td>
                 <td><code>${p.pass_code}</code></td>
-                <td>${p.check_in_time || '---'}</td>
+                <td>${new Date(p.check_in_time).toLocaleTimeString()}</td>
                 <td><span class="badge badge-success">ON-SITE</span></td>
             </tr>
         `).join('');

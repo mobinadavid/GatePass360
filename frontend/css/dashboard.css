@@ -9,7 +9,7 @@ body {
         radial-gradient(circle at 10% 90%, #5cbaed 0%, #5ec8f6 15%, #b3e5fc 25%, transparent 60%),
         linear-gradient(135deg, #e1f5fe, #98daf8);
     overflow-x: hidden;
-    height: auto;
+    min-height: 100vh;
 }
 .card-3d-wrap {
     position: relative;
