@@ -31,6 +31,7 @@ function setupRoleBasedUI(roles) {
         loadActivePasses();
         loadSecurityPendingVisits();
         loadPresentReport();
+        loadSecurityLogs();
     }
     if (userRoles.includes('guest') || userRoles.includes('visitor')) {
         if (sections.visitor) sections.visitor.style.display = 'block';
@@ -41,6 +42,7 @@ function setupRoleBasedUI(roles) {
     if (userRoles.includes('host')) {
         if (sections.host) sections.host.style.display = 'block';
         loadHostPendingRequests();
+        loadHostLogs();
     }
     if (userRoles.includes('admin')) {
         if (sections.admin) sections.admin.style.display = 'block';
@@ -48,6 +50,7 @@ function setupRoleBasedUI(roles) {
         if (adminMonitor) {
         adminMonitor.style.display = 'block';
         loadAllVisitsForAdmin(); 
+        loadAdminDashboardData();
          }
         loadAdminUsers();
         loadAdminReports();

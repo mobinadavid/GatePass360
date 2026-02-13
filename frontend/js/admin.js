@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', () => {
+    loadAdminUsers();
+    loadAdminReports();
+    loadAllVisitsForAdmin();
+});
+
 async function loadAdminUsers() {
     const res = await apiRequest('/admin/users');
     const tbody = document.getElementById('adminUserList');
@@ -20,6 +26,8 @@ async function loadAdminUsers() {
                 </td>
             </tr>
         `).join('');
+    } else {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">${res.message || 'Failed to load users'}</td></tr>`;
     }
 }
 
@@ -30,23 +38,25 @@ window.changeUserRole = async (userId, roleId) => {
     const res = await apiRequest(`/admin/users/${userId}/role`, 'PATCH', { role_id: parseInt(roleId) });
     
     if (res.is_successful) {
-        alert("Role updated successfully!");
+        showMessage("Role updated successfully!", true);
         loadAdminUsers();
     } else {
-        alert(res.message || "Failed to update role");
+        showMessage(res.message || "Failed to update role");
     }
 };
 
+// -------------------- Visit Reports --------------------
 async function loadAdminReports() {
     const res = await apiRequest('/admin/reports');
     if (!res.is_successful || !res.data.reports) return;
 
     const { user_summary, visit_stats } = res.data.reports;
-    if(document.getElementById('totalUsersCount')) 
-        document.getElementById('totalUsersCount').innerText = user_summary.total_count;
 
-    if(visit_stats.length > 0 && document.getElementById('todayVisitsCount'))
-        document.getElementById('todayVisitsCount').innerText = visit_stats[0].visit_count;
+    const totalUsersEl = document.getElementById('totalUsersCount');
+    if (totalUsersEl) totalUsersEl.innerText = user_summary.total_count;
+
+    const todayVisitsEl = document.getElementById('todayVisitsCount');
+    if (todayVisitsEl && visit_stats.length > 0) todayVisitsEl.innerText = visit_stats[0].visit_count;
 
     const reportBody = document.getElementById('adminVisitReportList');
     if (reportBody) {
@@ -60,50 +70,44 @@ async function loadAdminReports() {
 }
 
 async function loadAllVisitsForAdmin() {
-    const res = await apiRequest('/visits'); 
+    const res = await apiRequest('/admin/reports');
     const tbody = document.getElementById('masterVisitList');
     if (!tbody) return;
 
-    const visits = res.data?.visits || res.data || [];
-
-    if (visits.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No visit requests found.</td></tr>';
+    if (!res.is_successful || !res.data.visits) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${res.message || 'No visits data available'}</td></tr>`;
         return;
     }
 
-    tbody.innerHTML = visits.map(v => {
-        let statusBadge = 'badge-secondary';
-        const s = v.status?.toUpperCase() || '';
-        
-        if (s === 'PENDING') statusBadge = 'badge-warning';
-        else if (s.includes('REJECTED')) statusBadge = 'badge-danger';
-        else if (s.includes('APPROVED_BY_HOST')) statusBadge = 'badge-info';
-        else if (s.includes('APPROVED_BY_SECURITY')) statusBadge = 'badge-primary';
-        else if (s === 'ENTERED') statusBadge = 'badge-success';
-        else if (s === 'COMPLETED') statusBadge = 'badge-dark';
+    tbody.innerHTML = res.data.visits.map(v => {
+        const visitorName = v.Visitor?.full_name || v.Guest?.full_name || 'N/A';
+        const hostName = v.Host?.full_name || 'N/A';
+        const passCode = v.Pass?.pass_code || '---';
+        const securityName = v.Pass?.Security?.full_name || '---';
 
-        const pass = v.Pass || v.pass || null;
-        const passCode = pass ? `<code class="text-info">${pass.pass_code}</code>` : '<small class="text-muted">No Pass</small>';
-        const securityName = pass?.Issuer?.full_name || pass?.Security?.full_name || '---';
-        const formatT = (t) => t ? new Date(t).toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'}) : '---';
-        const rejectionReason = v.rejection_reason ? `<br><small class="text-danger">Reason: ${v.rejection_reason}</small>` : '';
+        const formatTime = t => t ? new Date(t).toLocaleString() : '---';
+        let statusText = 'WAITING';
+        let badgeClass = 'badge-secondary';
+
+        if (v.Pass?.check_in_time && !v.Pass?.check_out_time) {
+            statusText = 'ON-SITE';
+            badgeClass = 'badge-success';
+        } else if (v.Pass?.check_out_time) {
+            statusText = 'COMPLETED';
+            badgeClass = 'badge-dark';
+        }
 
         return `
             <tr>
-                <td><strong>${v.Visitor?.full_name || v.Guest?.full_name || 'Unknown'}</strong></td>
-                <td>${v.Host?.full_name || 'N/A'}</td>
-                <td>${passCode}</td>
-                <td><small>${securityName}</small></td>
+                <td>${visitorName}</td>
+                <td>${hostName}</td>
+                <td><code>${passCode}</code></td>
+                <td>${securityName}</td>
                 <td>
-                    <div style="font-size: 0.75rem;">
-                        <span class="text-success">In: ${formatT(pass?.check_in_time)}</span><br>
-                        <span class="text-danger">Out: ${formatT(pass?.check_out_time)}</span>
-                    </div>
+                    In: ${formatTime(v.Pass?.check_in_time)}<br>
+                    Out: ${formatTime(v.Pass?.check_out_time)}
                 </td>
-                <td>
-                    <span class="badge ${statusBadge}">${s.replace(/_/g, ' ')}</span>
-                    ${rejectionReason}
-                </td>
+                <td><span class="badge ${badgeClass}">${statusText}</span></td>
             </tr>
         `;
     }).join('');

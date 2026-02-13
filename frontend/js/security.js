@@ -40,6 +40,7 @@ window.handleCheckInFromList = async (code) => {
         alert("Entry recorded"); 
         loadActivePasses(); 
         loadPresentReport(); 
+        loadSecurityLogs();
     } else alert(res.message);
 };
 
@@ -49,6 +50,7 @@ window.handleCheckOutFromList = async (code) => {
         alert("Exit recorded"); 
         loadActivePasses(); 
         loadPresentReport(); 
+        loadSecurityLogs();
     } else alert(res.message);
 };
 
@@ -107,4 +109,47 @@ async function loadPresentReport() {
                 <td><span class="badge badge-success">ON-SITE</span></td>
             </tr>
         `).join('');
+}
+
+async function loadSecurityLogs() {
+    const res = await apiRequest('/passes'); 
+    const tbody = document.getElementById('securityLogsList');
+    if (!tbody || !res.is_successful) return;
+
+    const passes = res.data?.passes || [];
+
+    if (passes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No pass records for today.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = passes.map(p => {
+        const guestName = p.Visit?.Guest?.full_name || p.Visit?.Visitor?.full_name || 'Visitor';
+        const formatT = (t) => t ? new Date(t).toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'}) : '---';
+        
+        let badgeClass = 'badge-secondary';
+        let statusText = 'WAITING';
+
+        if (p.check_out_time) {
+            badgeClass = 'badge-dark'; 
+            statusText = 'COMPLETED';
+        } else if (p.check_in_time) {
+            badgeClass = 'badge-success'; 
+            statusText = 'ON-SITE';
+        }
+
+        return `
+            <tr>
+                <td><strong>${guestName}</strong></td>
+                <td><code class="text-info">${p.pass_code}</code></td>
+                <td>
+                    <div style="font-size: 0.75rem;">
+                        <span class="text-success">In: ${formatT(p.check_in_time)}</span><br>
+                        <span class="text-danger">Out: ${formatT(p.check_out_time)}</span>
+                    </div>
+                </td>
+                <td><span class="badge ${badgeClass}">${statusText}</span></td>
+            </tr>
+        `;
+    }).join('');
 }

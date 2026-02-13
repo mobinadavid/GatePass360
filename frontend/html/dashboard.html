@@ -5,29 +5,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GatePass360 - Dashboard</title>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
+    <link rel='stylesheet'
+        href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css'>
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 
 <body>
     <div class="section">
-        <div class="container mt-5">
+        <div class="container mt-4">
+
+            <!-- Message Box -->
+            <div id="messageBox" style="display:none; padding:10px; margin-bottom:10px; border-radius:5px;"></div>
+
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card-3d-wrap">
-                        <div class="section text-center">
-                            <h4 class="mb-4">Profile</h4>
-                            <p><strong>Name:</strong> <span id="display_name">...</span></p>
-                            <p><strong>User:</strong> @<span id="display_username">...</span></p>
-                            <button id="logoutBtn" class="btn mt-4">Logout</button>
-                        </div>
+                <!-- Profile Card -->
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card card-3d-wrap p-3 text-center">
+                        <h4 class="mb-3">Profile</h4>
+                        <p><strong>Name:</strong> <span id="display_name">...</span></p>
+                        <p><strong>User:</strong> @<span id="display_username">...</span></p>
+                        <button id="logoutBtn" class="btn btn-danger mt-3">Logout</button>
                     </div>
                 </div>
 
-                <div class="col-md-8">
+                <!-- Main Content -->
+                <div class="col-12 col-md-8">
 
-                    <div id="hostSection" class="card-3d-wrap mb-4">
-                        <h4 class="mb-4">Requests to Approve</h4>
+                    <!-- Visitor Section -->
+                    <div id="visitorSection" class="card card-3d-wrap mb-4" style="display:none; padding:20px;">
+                        <h4 class="mb-3">New Visit Request</h4>
+                        <form id="visitForm">
+                            <div class="form-group">
+                                <select id="host_id" class="form-control" required>
+                                    <option value="" disabled selected>Select Host...</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <textarea id="purpose" class="form-control" placeholder="Purpose of visit"
+                                    required></textarea>
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="date" id="visit_date" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Send Request</button>
+                        </form>
+                    </div>
+
+                    <!-- Visitor History -->
+                    <div id="historySection" class="card card-3d-wrap mb-4" style="display:none; padding:20px;">
+                        <h4 class="mb-3">My Requests History</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Host/Guest</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="visitList">
+                                    <tr><td colspan="3">Loading visits...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Host Section -->
+                    <div id="hostSection" class="card card-3d-wrap mb-4" style="display:none; padding:20px;">
+                        <h4 class="mb-3">Requests to Approve</h4>
                         <div class="table-responsive">
                             <table class="table table-dark table-hover">
                                 <thead>
@@ -37,17 +82,32 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="hostRequestList">
-                                </tbody>
+                                <tbody id="hostRequestList"></tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">My Visit Logs</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Visitor</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Details / Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hostLogsList"></tbody>
                             </table>
                         </div>
                     </div>
 
-                    <div id="securitySection" class="card-3d-wrap mb-4">
-                        <h4 class="mb-4">Security Gate Control</h4>
+                    <!-- Security Section -->
+                    <div id="securitySection" class="card card-3d-wrap mb-4" style="display:none; padding:20px;">
+                        <h4 class="mb-3">Security Gate Control</h4>
 
-                        <h5 class="mt-4 mb-3">Approved Visits (Pending Pass)</h5>
-                        <div class="table-responsive mb-4">
+                        <h5 class="mt-3 mb-2">Approved Visits (Pending Pass)</h5>
+                        <div class="table-responsive mb-3">
                             <table class="table table-dark table-hover">
                                 <thead>
                                     <tr>
@@ -57,15 +117,12 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="securityPendingList">
-                                </tbody>
+                                <tbody id="securityPendingList"></tbody>
                             </table>
                         </div>
 
-                        <hr style="border-top: 1px solid #444;">
-
-                        <h5 class="mt-4 mb-3">Active Passes (In/Out)</h5>
-                        <div class="table-responsive">
+                        <h5 class="mt-3 mb-2">Active Passes (In/Out)</h5>
+                        <div class="table-responsive mb-3">
                             <table class="table table-dark table-hover">
                                 <thead>
                                     <tr>
@@ -77,46 +134,41 @@
                                 <tbody id="activePassesList"></tbody>
                             </table>
                         </div>
-                    </div>
-                    <div id="adminVisitsMonitor" class="card-3d-wrap mt-4" style="display:none;">
-                        <h4 class="mb-4">Global Security & Visit Monitor</h4>
+
+                        <h5 class="mt-3 mb-2">Security Logs</h5>
                         <div class="table-responsive">
-                            <table class="table table-dark table-hover" style="font-size: 0.85rem;">
+                            <table class="table table-dark table-hover">
                                 <thead>
                                     <tr>
                                         <th>Visitor</th>
-                                        <th>Host</th>
                                         <th>Pass Code</th>
-                                        <th>Security By</th>
-                                        <th>Check In/Out</th>
+                                        <th>In/Out Time</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody id="masterVisitList">
-                                    </tbody>
+                                <tbody id="securityLogsList"></tbody>
                             </table>
                         </div>
                     </div>
-                    <div id="adminSection" class="card-3d-wrap mb-4">
-                        <h4 class="mb-4">System Administration</h4>
-                        
+
+                    <!-- Admin Section -->
+                    <div id="adminSection" class="card card-3d-wrap mb-4" style="display:none; padding:20px;">
+                        <h4 class="mb-3">System Administration</h4>
+
                         <div class="row mb-4">
-                            <div class="col-sm-6">
-                                <div class="p-3">
-                                    <p class="mb-0">Total Users</p>
-                                    <h3 id="totalUsersCount">0</h3>
-                                </div>
+                            <div class="col-6">
+                                <p class="mb-0">Total Users</p>
+                                <h3 id="totalUsersCount">0</h3>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="p-3">
-                                    <p class="mb-0">Today's Visits</p>
-                                    <h3 id="todayVisitsCount">0</h3>
-                                </div>
+                            <div class="col-6">
+                                <p class="mb-0">Today's Visits</p>
+                                <h3 id="todayVisitsCount">0</h3>
                             </div>
                         </div>
-                    
-                        <h5 class="mt-4 mb-3">User Management</h5>
-                        <div class="table-responsive mb-4">
+
+                        <!-- User Management -->
+                        <h5 class="mt-3 mb-2">User Management</h5>
+                        <div class="table-responsive mb-3">
                             <table class="table table-dark table-hover">
                                 <thead>
                                     <tr>
@@ -131,10 +183,9 @@
                                 </tbody>
                             </table>
                         </div>
-                    
-                        <hr>
-                    
-                        <h5 class="mt-4 mb-3">Recent Traffic Stats</h5>
+
+                        <!-- Visit Reports -->
+                        <h5 class="mt-3 mb-2">Recent Traffic Stats</h5>
                         <div class="table-responsive">
                             <table class="table table-dark table-hover table-sm">
                                 <thead>
@@ -146,44 +197,22 @@
                                 <tbody id="adminVisitReportList"></tbody>
                             </table>
                         </div>
-                    </div>
 
-                    <div id="visitorSection" class="card-3d-wrap mb-4"
-                        style="width: 100%; height: auto; padding: 25px;">
-                        <h4 class="mb-4">New Visit Request</h4>
-                        <form id="visitForm">
-                            <div class="form-group">
-                                <select id="host_id" class="form-style" required>
-                                    <option value="" disabled selected>Select Host to visit...</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-2">
-                                <textarea id="purpose" class="form-style" placeholder="Purpose of visit"
-                                    required></textarea>
-                            </div>
-                            <div class="form-group mt-2">
-                                <input type="date" id="visit_date" class="form-style" required>
-                            </div>
-                            <button type="submit" class="btn mt-3">Send Request</button>
-                        </form>
-                    </div>
-
-                    <div id="historySection" class="card-3d-wrap">
-                        <h4 class="mb-4">My Requests History</h4>
+                        <!-- Global Monitor -->
+                        <h5 class="mt-3 mb-2">Global Security & Visit Monitor</h5>
                         <div class="table-responsive">
-                            <table class="table table-dark table-hover">
+                            <table class="table table-dark table-hover table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Host/Guest</th>
-                                        <th>Date</th>
+                                        <th>Visitor</th>
+                                        <th>Host</th>
+                                        <th>Pass Code</th>
+                                        <th>Security By</th>
+                                        <th>Check In/Out</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody id="visitList">
-                                    <tr>
-                                        <td colspan="3">Loading visits...</td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="masterVisitList"></tbody>
                             </table>
                         </div>
                     </div>
@@ -193,8 +222,8 @@
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="/js/api.js"></script>
-    <!-- <script src="/js/dashboard.js"></script> -->
     <script src="/js/core.js"></script>
     <script src="/js/guest.js"></script>
     <script src="/js/host.js"></script>
