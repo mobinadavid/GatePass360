@@ -4,50 +4,114 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
     line-height: 1.7;
-    color:#102770;
+    color: #102770;
     background: radial-gradient(circle at 70% 30%, #0277b7 0%, #3da6d5 15%, #b3e5fc 35%, transparent 60%),
         radial-gradient(circle at 10% 90%, #5cbaed 0%, #5ec8f6 15%, #b3e5fc 25%, transparent 60%),
         linear-gradient(135deg, #e1f5fe, #98daf8);
     overflow-x: hidden;
     min-height: 100vh;
+    margin: 0;
 }
+
+.top-navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+}
+
+.top-navbar .brand h3 {
+    margin: 0;
+    font-weight: 700;
+    color: #102770;
+}
+
+.top-navbar .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.top-navbar .user-details {
+    font-weight: 500;
+    color: #102770;
+    text-align: right;
+    margin-right: 15px;
+}
+
+.top-navbar .user-details #nav_display_name {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.top-navbar .user-details #nav_display_username {
+    font-size: 0.85rem;
+    color: #1e3a8a;
+}
+
+.top-navbar .btn-logout {
+    height: 38px;
+    padding: 0 15px;
+    font-size: 0.85rem;
+    border-radius: 5px;
+    background-color: #e74c3c;
+    transition: 0.3s;
+    border: none;
+    color: white;
+}
+
+.top-navbar .btn-logout:hover {
+    background-color: #c0392b;
+}
+
 .card-3d-wrap {
     position: relative;
     width: 100%;
     max-width: 100%;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-    border:#102770 2px;
-    background-position: bottom center;
-    border-radius: 6px;
-    box-shadow: 0 10px 30px 0 rgba(0,0,0,.5);
-    transition: transform 0.3s ease;
+    border: 2px solid #102770;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 25px;
+}
+
+.card-3d-wrap:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
 h4 {
     font-weight: 600;
-    color:#102770;
+    color: #102770;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
 .form-style {
     padding: 13px 20px;
     height: 48px;
     width: 100%;
     font-weight: 500;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 14px;
     line-height: 22px;
     letter-spacing: 0.5px;
     outline: none;
-    color:#102770;
+    color: #102770;
     background-color: white;
     border: none;
-    box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
-    transition: all 200ms linear;
-}
-.section{
-    margin-bottom: 150px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s;
 }
 
 textarea.form-style {
@@ -55,15 +119,17 @@ textarea.form-style {
     padding-top: 15px;
 }
 
-.form-style:focus {
-    color:#102770;
+.form-style:focus, textarea.form-style:focus {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     background-color: white;
-    box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+    color: #102770;
 }
+
+
 .table {
     color: #c4c3ca;
-    background-color:#263979;
-    border-radius: 8px;
+    background-color: rgba(33, 54, 123, 0.85);
+    border-radius: 10px;
     overflow: hidden;
     border: none;
 }
@@ -77,15 +143,27 @@ textarea.form-style {
 
 .table td, .table th {
     vertical-align: middle;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
 }
-.btn {  
-    border-radius: 4px;
+
+/* Scrollbar */
+.table-responsive::-webkit-scrollbar {
+    height: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #2b469f;
+    border-radius: 10px;
+}
+
+.btn {
+    border-radius: 8px;
     height: 44px;
     font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
-    transition: all 200ms linear;
+    transition: all 0.3s;
     padding: 0 30px;
     letter-spacing: 1px;
     display: inline-flex;
@@ -93,60 +171,30 @@ textarea.form-style {
     justify-content: center;
     text-align: center;
     border: none;
-    background-color:#102770;
-    color: white;
-    box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
-}
-
-.btn:hover {  
     background-color: #102770;
     color: white;
-    box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+    box-shadow: 0 8px 24px rgba(255,235,167,0.2);
 }
+
+.btn:hover {
+    background-color: #102770;
+    color: white;
+    box-shadow: 0 8px 24px rgba(16,39,112,0.2);
+}
+
+.btn-approve { background-color: #2ecc71 !important; }
+.btn-reject { background-color: #e74c3c !important; }
+.btn-entry { background-color: #3498db !important; }
+.btn-exit { background-color: #f39c12 !important; }
+
+.btn-approve:hover { background-color: #27ae60 !important; }
+.btn-reject:hover { background-color: #c0392b !important; }
+.btn-entry:hover { background-color: #2980b9 !important; }
+.btn-exit:hover { background-color: #d35400 !important; }
+
 #display_name, #display_username {
-    color:#102770 ;
+    color: #102770;
     font-weight: 600;
-}
-.table-responsive::-webkit-scrollbar {
-    height: 5px;
-}
-.table-responsive::-webkit-scrollbar-thumb {
-    background:#102770;
-    border-radius: 10px;
-}
-.btn-approve {
-    background-color: #2ecc71 !important;
-    padding: 5px 15px !important;
-    height: 35px !important;
-    font-size: 11px !important;
-    margin-right: 5px;
-}
-
-.btn-reject {
-    background-color: #e74c3c !important;
-    padding: 5px 15px !important;
-    height: 35px !important;
-    font-size: 11px !important;
-}
-
-.btn-entry {
-    background-color: #3498db !important;
-    padding: 5px 15px !important;
-    height: 35px !important;
-    font-size: 11px !important;
-}
-
-.btn-exit {
-    background-color: #f39c12 !important;
-    padding: 5px 15px !important;
-    height: 35px !important;
-    font-size: 11px !important;
-}
-
-.card-admin {
-    width: 100%;
-    height: auto;
-    padding: 25px;
 }
 
 .stat-card {
@@ -180,14 +228,15 @@ textarea.form-style {
 .text-silver {
     color: #c4c3ca;
 }
-.hr-dark {
-    border-top: 1px solid #444;
+
+#messageBox {
+    font-weight: 500;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    padding: 10px;
+    margin-bottom: 15px;
 }
 
-.btn-logout {
-    background: #e74c3c;
-    color: white;
-}
-.hidden-section {
-    display: none;
-}
+.hr-dark { border-top: 1px solid #444; }
+.section { margin-bottom: 150px; }
+.hidden-section { display: none; }
