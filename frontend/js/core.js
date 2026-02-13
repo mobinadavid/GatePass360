@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (profileRes.is_successful) {
             const user = profileRes.data;
             const roles = user.roles.map(r => (typeof r === 'object' ? r.name : r));
-            
+
             document.getElementById('display_name').innerText = user.full_name;
             document.getElementById('display_username').innerText = user.username;
             setupRoleBasedUI(roles);
@@ -20,10 +20,11 @@ function setupRoleBasedUI(roles) {
         visitor: document.getElementById('visitorSection'),
         host: document.getElementById('hostSection'),
         security: document.getElementById('securitySection'),
-        history: document.getElementById('historySection')
+        history: document.getElementById('historySection'),
+        admin: document.getElementById('adminSection')
     };
 
-    Object.values(sections).forEach(s => { if(s) s.style.display = 'none'; });
+    Object.values(sections).forEach(s => { if (s) s.style.display = 'none'; });
 
     const userRoles = roles.map(r => r.toLowerCase());
 
@@ -48,6 +49,11 @@ function setupRoleBasedUI(roles) {
         loadHosts();
         loadMyVisits();
     }
+    if (userRoles.includes('admin')) {
+        if (sections.admin) sections.admin.style.display = 'block';
+        loadAdminUsers();
+        loadAdminReports();
+    }
 }
 
 function renderVisitTable(res, targetId) {
@@ -59,7 +65,7 @@ function renderVisitTable(res, targetId) {
 
             if (v.status === 'approved' || v.status === 'approved_by_host') statusColor = '#2ecc71';
             if (v.status === 'rejected') statusColor = '#e74c3c';
-            
+
             const passInfo = (v.Pass) ? `<br><small class="text-white">Code: ${v.Pass.pass_code}</small>` : '';
             const reason = (v.rejection_reason) ? `<br><small style="color: #ff9f89;">Reason: ${v.rejection_reason}</small>` : '';
 

@@ -14,20 +14,19 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card-3d-wrap" style="height: auto; padding: 20px;">
-                        <div class="section text-center" style="margin-bottom: 0;">
+                    <div class="card-3d-wrap">
+                        <div class="section text-center">
                             <h4 class="mb-4">Profile</h4>
                             <p><strong>Name:</strong> <span id="display_name">...</span></p>
                             <p><strong>User:</strong> @<span id="display_username">...</span></p>
-                            <button id="logoutBtn" class="btn mt-4" style="background: #e74c3c;">Logout</button>
+                            <button id="logoutBtn" class="btn mt-4">Logout</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-8">
 
-                    <div id="hostSection" class="card-3d-wrap mb-4"
-                        style="width: 100%; height: auto; padding: 25px; display: none;">
+                    <div id="hostSection" class="card-3d-wrap mb-4">
                         <h4 class="mb-4">Requests to Approve</h4>
                         <div class="table-responsive">
                             <table class="table table-dark table-hover">
@@ -44,11 +43,10 @@
                         </div>
                     </div>
 
-                    <div id="securitySection" class="card-3d-wrap mb-4"
-                        style="width: 100%; height: auto; padding: 25px; display: none;">
+                    <div id="securitySection" class="card-3d-wrap mb-4">
                         <h4 class="mb-4">Security Gate Control</h4>
 
-                        <h5 class="mt-4 mb-3" style="color: #ffeba7;">Approved Visits (Pending Pass)</h5>
+                        <h5 class="mt-4 mb-3">Approved Visits (Pending Pass)</h5>
                         <div class="table-responsive mb-4">
                             <table class="table table-dark table-hover">
                                 <thead>
@@ -66,7 +64,7 @@
 
                         <hr style="border-top: 1px solid #444;">
 
-                        <h5 class="mt-4 mb-3" style="color: #ffeba7;">Active Passes (In/Out)</h5>
+                        <h5 class="mt-4 mb-3">Active Passes (In/Out)</h5>
                         <div class="table-responsive">
                             <table class="table table-dark table-hover">
                                 <thead>
@@ -77,6 +75,56 @@
                                     </tr>
                                 </thead>
                                 <tbody id="activePassesList"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="adminSection" class="card-3d-wrap mb-4">
+                        <h4 class="mb-4">System Administration</h4>
+                        
+                        <div class="row mb-4">
+                            <div class="col-sm-6">
+                                <div class="p-3">
+                                    <p class="mb-0">Total Users</p>
+                                    <h3 id="totalUsersCount">0</h3>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-3">
+                                    <p class="mb-0">Today's Visits</p>
+                                    <h3 id="todayVisitsCount">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <h5 class="mt-4 mb-3">User Management</h5>
+                        <div class="table-responsive mb-4">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Username</th>
+                                        <th>Roles</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminUserList">
+                                    <tr><td colspan="4">Loading users...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                        <hr>
+                    
+                        <h5 class="mt-4 mb-3">Recent Traffic Stats</h5>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Total Visits</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminVisitReportList"></tbody>
                             </table>
                         </div>
                     </div>
@@ -101,7 +149,7 @@
                         </form>
                     </div>
 
-                    <div class="card-3d-wrap" style="width: 100%; height: auto; padding: 25px;">
+                    <div class="card-3d-wrap">
                         <h4 class="mb-4">My Requests History</h4>
                         <div class="table-responsive">
                             <table class="table table-dark table-hover">
@@ -132,6 +180,7 @@
     <script src="/js/guest.js"></script>
     <script src="/js/host.js"></script>
     <script src="/js/security.js"></script>
+    <script src="/js/admin.js"></script>
 
 </body>
 

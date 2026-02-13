@@ -142,3 +142,52 @@ textarea.form-style {
     height: 35px !important;
     font-size: 11px !important;
 }
+
+.card-admin {
+    width: 100%;
+    height: auto;
+    padding: 25px;
+}
+
+.stat-card {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.stat-card.total-users {
+    border-left: 4px solid #ffeba7;
+}
+
+.stat-card.today-visits {
+    border-left: 4px solid #c4c3ca;
+}
+
+.stat-card p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.stat-card h3 {
+    margin-top: 5px;
+}
+
+.text-gold {
+    color: #ffeba7;
+}
+
+.text-silver {
+    color: #c4c3ca;
+}
+.hr-dark {
+    border-top: 1px solid #444;
+}
+
+.btn-logout {
+    background: #e74c3c;
+    color: white;
+}
+.hidden-section {
+    display: none;
+}
