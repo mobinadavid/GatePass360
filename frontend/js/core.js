@@ -45,15 +45,14 @@ function setupRoleBasedUI(roles) {
         loadHostLogs();
     }
     if (userRoles.includes('admin')) {
-        if (sections.admin) sections.admin.style.display = 'block';
-        const adminMonitor = document.getElementById('adminVisitsMonitor');
-        if (adminMonitor) {
-        adminMonitor.style.display = 'block';
-        loadAllVisitsForAdmin(); 
-        loadAdminDashboardData();
-         }
-        loadAdminUsers();
-        loadAdminReports();
+        const adminSection = document.getElementById('adminSection');
+        if (adminSection) {
+            adminSection.style.display = 'block';
+            loadAdminUsers();
+            loadAdminReports();
+            loadAllVisitsForAdmin();
+            populateAdminHostFilter();
+        }
     }
 }
 

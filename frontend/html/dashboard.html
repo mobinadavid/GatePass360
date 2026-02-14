@@ -95,11 +95,47 @@
                             </div>
                         </div>
                     </div>
-                    <div id="adminVisitsMonitor" class="card-3d-wrap mt-4" style="display:none;">
-                        <h4 class="mb-4">Global Security & Visit Monitor</h4>
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover" style="font-size: 0.85rem;">
-                                <thead>
+
+                    <div id="adminSection" style="display:none;">
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card-3d-wrap stat-card total-users">
+                                    <p>Total Registered Users</p>
+                                    <h3 id="totalUsersCount">0</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-3d-wrap stat-card today-visits">
+                                    <p>Today's Total Visits</p>
+                                    <h3 id="todayVisitsCount">0</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="adminVisitsMonitor" class="card-3d-wrap mb-4">
+                            <h4 class="mb-4">Global Security & Visit Monitor</h4>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <select id="adminFilterHost" class="form-style" onchange="loadAllVisitsForAdmin()">
+                                        <option value="">Filter by Host...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select id="adminFilterStatus" class="form-style" onchange="loadAllVisitsForAdmin()">
+                                        <option value="">Filter by Status...</option>
+                                        <option value="pending_host">Pending Host</option>
+                                        <option value="approved_by_host">Approved by Host</option>
+                                        <option value="approved_by_security">Approved by Security</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover" style="font-size: 0.85rem;">
+                                    <thead>
                                     <tr>
                                         <th>Visitor</th>
                                         <th>Host</th>
@@ -108,60 +144,42 @@
                                         <th>Check In/Out</th>
                                         <th>Status</th>
                                     </tr>
-                                </thead>
-                                <tbody id="masterVisitList">
-                                    </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div id="adminSection" class="card-3d-wrap mb-4">
-                        <h4 class="mb-4">System Administration</h4>
-                        
-                        <div class="row mb-4">
-                            <div class="col-sm-6">
-                                <div class="p-3">
-                                    <p class="mb-0">Total Users</p>
-                                    <h3 id="totalUsersCount">0</h3>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="p-3">
-                                    <p class="mb-0">Today's Visits</p>
-                                    <h3 id="todayVisitsCount">0</h3>
-                                </div>
+                                    </thead>
+                                    <tbody id="masterVisitList"></tbody>
+                                </table>
                             </div>
                         </div>
-                    
-                        <h5 class="mt-4 mb-3">User Management</h5>
-                        <div class="table-responsive mb-4">
-                            <table class="table table-dark table-hover">
-                                <thead>
+
+                        <div class="card-3d-wrap mb-4">
+                            <h4 class="mb-4">User Management & Role Assignment</h4>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover">
+                                    <thead>
                                     <tr>
                                         <th>Full Name</th>
                                         <th>Username</th>
-                                        <th>Roles</th>
-                                        <th>Action</th>
+                                        <th>Current Roles</th>
+                                        <th>Assign New Role</th>
                                     </tr>
-                                </thead>
-                                <tbody id="adminUserList">
-                                    <tr><td colspan="4">Loading users...</td></tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="adminUserList"></tbody>
+                                </table>
+                            </div>
                         </div>
-                    
-                        <hr>
-                    
-                        <h5 class="mt-4 mb-3">Recent Traffic Stats</h5>
-                        <div class="table-responsive">
-                            <table class="table table-dark table-hover table-sm">
-                                <thead>
+
+                        <div class="card-3d-wrap mb-4">
+                            <h4 class="mb-4">Weekly Traffic Report</h4>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover">
+                                    <thead>
                                     <tr>
                                         <th>Date</th>
                                         <th>Total Visits</th>
                                     </tr>
-                                </thead>
-                                <tbody id="adminVisitReportList"></tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="adminVisitReportList"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
